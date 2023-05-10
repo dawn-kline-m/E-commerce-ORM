@@ -14,7 +14,6 @@ router.get('/', async (req, res) => {
     // Handle errors by sending a 500 status with a custom message
     res.status(500).json({ message: 'not found!' });
   }
-
 });
 
 router.get('/:id', async (req, res) => {
@@ -29,6 +28,7 @@ router.get('/:id', async (req, res) => {
       res.status(404).json({ message: 'id not found' });
       return;
     }
+
     res.status(200).json(category);
   } catch (err) {
     // Handle errors by sending a 500 status with a custom message
@@ -37,6 +37,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+  // create a new category
   try {
     // Create a new category using the data in the request body
     const newCategory = await Category.create(req.body);
@@ -63,6 +64,7 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
+  // delete a category by its `id` value
   try {
     // Delete the category with the matching ID
     const deleted = await Category.destroy({ where: { id: req.params.id } });
@@ -74,6 +76,6 @@ router.delete('/:id', async (req, res) => {
   catch (err) {
     res.status(500).json(err);
   }
-
 });
+
 module.exports = router;

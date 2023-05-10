@@ -34,15 +34,15 @@ router.get('/:id', async (req, res) => {
 });
 
 // create new product
+/* req.body should look like this...
+   {
+     product_name: "Basketball",
+     price: 200.00,
+     stock: 3,
+     tagIds: [1, 2, 3, 4]
+   }
+ */
 router.post('/', (req, res) => {
-  /* req.body should look like this...
-    {
-      product_name: "Basketball",
-      price: 200.00,
-      stock: 3,
-      tagIds: [1, 2, 3, 4]
-    }
-  */
   Product.create(req.body)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
@@ -107,8 +107,19 @@ router.put('/:id', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   // delete one product by its `id` value
+  try {
+    // Delete the product with the matching ID
+    const deleted = await Product.destroy({ where: { id: req.params.id } });
+    // If the product is not found, send a 404 status with a custom message
+    // Otherwise, return the deleted data
+    !deleted
+      ? res.status(404).json({ message: "id not found" })
+      : res.status(200).json(deleted);
+  } catch (err) {
+    res.status(500).json({ message: "Product not deleted!", error: err });
+  }
 });
 
 module.exports = router;
