@@ -25,7 +25,7 @@ router.get('/:id', async (req, res) => {
 
     // If the category is not found, send a 404 status with a custom message
     if (!category) {
-      res.status(404).json({ message: 'id not found' });
+      res.status(404).json({ message: 'id not found.' });
       return;
     }
 

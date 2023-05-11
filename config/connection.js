@@ -1,3 +1,4 @@
+// Require the dotenv module to load environment variables
 require('dotenv').config();
 
 const Sequelize = require('sequelize');
@@ -12,4 +13,5 @@ const sequelize = process.env.JAWSDB_URL
     },
   });
 
+// Export the sequelize instance for use in other modules
 module.exports = sequelize;
